@@ -1,4 +1,4 @@
-import { CellType } from "../common-types/Cell";
+import { CellType } from "../../common-types/Cell.d";
 
 
 export class Board {
@@ -28,14 +28,14 @@ export class Board {
 
         for (const column of this._value) {
             if (height == null) {
-                height = column.length                
+                height = column.length
             } else {
                 if (column.length != height) {
                     throw new Error(BoardErrors.InvalidCellValuesHeight)
                 }
             }
         }
-        
+
         return height
     }
 

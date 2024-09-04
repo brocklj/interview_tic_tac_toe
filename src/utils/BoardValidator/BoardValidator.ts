@@ -1,4 +1,4 @@
-import { CellType } from "../common-types/Cell";
+import { CellType } from "../../common-types/Cell.d";
 import { Board } from "./Board";
 import { BoardValidatorErrors, BoardValidatorOutput, GameStatus, GameStatusEnum, IBoardValidationStrategy } from "./BoardValidator.d"
 import { BoardValidatorBasicStrategy } from "./BoardValidatorBasicStrategy";

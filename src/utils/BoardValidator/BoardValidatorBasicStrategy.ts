@@ -1,4 +1,4 @@
-import { CellEnum, CellType } from "../common-types/Cell.d";
+import { CellEnum, CellType } from "../../common-types/Cell.d";
 import { Board } from "./Board";
 import { BoardValidatorErrors, GameStatus, GameStatusEnum, IBoardValidationStrategy } from "./BoardValidator.d";
 
@@ -47,7 +47,7 @@ export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
             } else if (winner == CellEnum.O) {
                 if (totalX >= totalO) {
                     throw new Error(BoardValidatorErrors.E3.replace(`$player`, `one`))
-                }                
+                }
             }
 
             console.log("winner: " + winner + ` totalX: ${totalX} totalO: ${totalO}`)
@@ -58,13 +58,13 @@ export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
             throw new Error(BoardValidatorErrors.E1)
         }
 
-        if(totalO > totalX) {
+        if (totalO > totalX) {
             throw new Error(BoardValidatorErrors.E0)
         }
 
         // TODO: Improve
         if (totalFilled > 1 && totalO != totalX) {
-             throw new Error(BoardValidatorErrors.E2)
+            throw new Error(BoardValidatorErrors.E2)
         }
 
         // No another criteria for status has been met, but all cells are filled
@@ -82,7 +82,7 @@ export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
             return false
         }
 
-        
+
 
         const cell: CellType | null = board.value[posX] ? board.value[posX][posY] : null
         if (cell == null) {
@@ -93,8 +93,8 @@ export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
 
             console.log(cell + lineLength + " " + cellInLineCount)
             return true
-        }        
- 
+        }
+
         const candidateLeft: CellType | null = board.value[posX - 1] ? board.value[posX - 1][posY] : null
         if (cell == candidateLeft && !visited.includes(`${posX}|${posY}`)) {
             visited.push(`${posX}|${posY}`)

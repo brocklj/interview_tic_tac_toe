@@ -50,3 +50,8 @@ export enum BoardValidatorErrors {
 export interface IBoardValidationStrategy {
     getGameStatus(board: Board, lineLength: number): GameStatus | null
 }
+
+export interface BoardData {
+    lineLength: number,
+     board: string[][]
+}

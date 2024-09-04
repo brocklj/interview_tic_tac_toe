@@ -1,9 +1,9 @@
 // BoardValidator.test.ts
 
 import { expect, test } from 'vitest'
-import { BoardValidator } from '../../src/utils/BoardValidator'
-import { BoardValidatorOutput, GameStatusEnum, BoardValidatorErrors } from '../../src/utils/BoardValidator.d'
-import { BoardErrors } from '../../src/utils/Board'
+import { BoardValidator } from './../../src/utils/BoardValidator/BoardValidator'
+import { BoardValidatorOutput, GameStatusEnum, BoardValidatorErrors } from './../../src/utils/BoardValidator/BoardValidator.d'
+import { BoardErrors } from './../../src/utils/BoardValidator/Board'
 
 test('Validation of given board and line - passed both', () => {
 
