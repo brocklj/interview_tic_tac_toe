@@ -1,4 +1,3 @@
-import * as React from "react";
 import { CellEnum, CellType } from "../common-types/Cell.d";
 
 export function BoardCell(props: {

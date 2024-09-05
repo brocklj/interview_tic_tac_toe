@@ -1,15 +1,15 @@
-import { PlayerEnum, PosType, } from "../../common-types/Cell.d";
+import { PosType, } from "../../common-types/Cell.d";
 import { Board } from "../BoardValidator/Board";
 import { IBotPlayerBot } from "./BoardPlayerBot";
 
 
 export class BoardPlayerBotRandomStrategy implements IBotPlayerBot {
-    public performNextMove(board: Board, currentPlayer: PlayerEnum): PosType | null {
+    public performNextMove(board: Board): PosType | null {
 
         const empties = this.getEmptyPos(board)
 
 
-       const targetPos = empties[randomIntFroInterval(0, empties.length - 1)]
+        const targetPos = empties[randomIntFroInterval(0, empties.length - 1)]
 
 
         return targetPos
@@ -29,7 +29,6 @@ export class BoardPlayerBotRandomStrategy implements IBotPlayerBot {
 
 }
 
-function randomIntFroInterval(min: number, max: number) { 
+function randomIntFroInterval(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-  
+}

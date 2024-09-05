@@ -19,11 +19,11 @@ export function StartForm({
   const [width, setWidth] = React.useState("3");
   const [height, setHeight] = React.useState("3");
   const [lineLength, setLineLength] = React.useState("3");
-  const [playerOne, setPlayerOne] = React.useState<PlayerConfig>(
-    PlayerConfig.User
+  const [playerOne, setPlayerOne] = React.useState(
+    PlayerConfig[PlayerConfig.User]
   );
-  const [playerTwo, setPlayerTwo] = React.useState<PlayerConfig>(
-    PlayerConfig.User
+  const [playerTwo, setPlayerTwo] = React.useState(
+    PlayerConfig[PlayerConfig.User]
   );
 
   const [error, setError] = React.useState("");
@@ -45,7 +45,7 @@ export function StartForm({
         throw Error(validationOutput.error || "");
       }
 
-      onSubmit(w, h, lh, playerOne, playerTwo);
+      onSubmit(w, h, lh, parseInt(playerOne), parseInt(playerTwo));
     } catch (error: Error | unknown) {
       if (error instanceof Error) {
         setError(error.message);

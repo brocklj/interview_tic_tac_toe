@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Board } from "../utils/BoardValidator/Board";
-import { CellEnum, CellType } from "../common-types/Cell.d";
+import { CellEnum, CellType, PlayerEnum } from "../common-types/Cell.d";
 import { BoardComponent } from "./BoardComponent";
 import { BoardValidator } from "../utils/BoardValidator/BoardValidator";
 import {
@@ -12,10 +12,13 @@ import { StartForm } from "./StartForm";
 import "./TicTacToeGame.css";
 import { BoardPlayerBotRandomStrategy } from "../utils/BoardPlayerBot/BoardPlayerBotRadomStrategy";
 import { PlayerConfig } from "../common-types/PlayerConfig";
+import { BoardPlayerBotSmart } from "../utils/BoardPlayerBot/BoardPlayerBotSmart";
 
 const boardValidator = new BoardValidator();
 
 const randomPlayerBot = new BoardPlayerBotRandomStrategy();
+
+const smartPlayerBot = new BoardPlayerBotSmart();
 
 export function TickTackToeGame() {
   const [gameStatus, setGameStatus] =
@@ -116,7 +119,13 @@ export function TickTackToeGame() {
       if (board) {
         let pos;
         if (currentUserConfig == PlayerConfig.BootRandom) {
-          pos = randomPlayerBot.performNextMove(board, currentPlayer);
+          pos = randomPlayerBot.performNextMove(board);
+        }
+        if (currentUserConfig == PlayerConfig.BootRandom) {
+          pos = smartPlayerBot.performNextMove(
+            board,
+            currentPlayer as PlayerEnum
+          );
         }
         if (pos) {
           setTimeout(() => {

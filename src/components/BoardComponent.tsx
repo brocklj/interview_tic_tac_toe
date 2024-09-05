@@ -1,6 +1,4 @@
-import * as React from "react";
 import { Board } from "../utils/BoardValidator/Board";
-import { CellEnum } from "../common-types/Cell.d";
 import { BoardCell } from "./BoardCell";
 
 export function BoardComponent(props: {
