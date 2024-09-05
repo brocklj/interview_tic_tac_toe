@@ -49,72 +49,157 @@ export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
                     throw new Error(BoardValidatorErrors.E3.replace(`$player`, `one`))
                 }
             }
-
-            console.log("winner: " + winner + ` totalX: ${totalX} totalO: ${totalO}`)
-            return GameStatusEnum.WIN
         }
 
         if (totalO > 0 && totalX < 1) {
             throw new Error(BoardValidatorErrors.E1)
         }
 
-        if (totalO > totalX) {
-            throw new Error(BoardValidatorErrors.E0)
-        }
+
 
         // TODO: Improve
-        if (totalFilled > 1 && totalO != totalX) {
+        //{"lineLength": 3, "board": [["", "", ""], ["", "",""], ["","",""] ] }
+        if (Math.abs(totalO - totalX) > 1) {
             throw new Error(BoardValidatorErrors.E2)
+        }
+
+        if (isGameWon) {
+            return GameStatusEnum.WIN
+        }
+
+        if (totalO > totalX) {
+            throw new Error(BoardValidatorErrors.E0)
         }
 
         // No another criteria for status has been met, but all cells are filled
         if (totalFilled >= totalCells) {
             return GameStatusEnum.TIE
-        } else if (totalFilled < totalCells) {
+        }
+        if (totalFilled < totalCells) {
             return GameStatusEnum.PLAY
         }
+
         return null
     }
 
-    private checkGameIsWon(posX: number, posY: number, board: Board, lineLength: number, cellInLineCount: number = 0, visited: string[] = []): boolean {
 
-        if (posX > board.width || posX < 0 || posY > board.height || posY < 0) {
+    private checkGameIsWon(posX: number, posY: number, board: Board, lineLength: number): boolean {
+
+        const cell: CellType | null = board.value[posX][posY]
+        if (cell == CellEnum.empty) {
             return false
         }
 
 
+        // Check rows
+        let cellInRowLineCountForward: number = 0
+        let cellInRowLineCountBack: number = 0
 
-        const cell: CellType | null = board.value[posX] ? board.value[posX][posY] : null
-        if (cell == null) {
-            return false
+        for (let x = posX + 1; x < board.width; x += 1) {
+            const candidate = board.value[x][posY]
+            if (candidate == cell) {
+                cellInRowLineCountForward += 1
+            } else {
+                break
+            }
         }
 
-        if (lineLength == cellInLineCount) {
+        for (let x = posX; x >= 0; x -= 1) {
+            const candidate = board.value[x][posY]
+            if (candidate == cell) {
+                cellInRowLineCountBack += 1
+            } else {
+                break
+            }
+        }
 
-            console.log(cell + lineLength + " " + cellInLineCount)
+
+
+        if ((cellInRowLineCountForward + cellInRowLineCountBack) >= lineLength) {
             return true
         }
 
-        const candidateLeft: CellType | null = board.value[posX - 1] ? board.value[posX - 1][posY] : null
-        if (cell == candidateLeft && !visited.includes(`${posX}|${posY}`)) {
-            visited.push(`${posX}|${posY}`)
-            return this.checkGameIsWon(posX - 1, posY, board, lineLength, cellInLineCount + 1, visited)
+        // Check columns
+
+        let cellInColumnLineCountForward: number = 0
+        let cellInColumnLineCountBack: number = 0
+
+        for (let y = posY; y < board.width; y += 1) {
+            const candidate = board.value[posX][y]
+            if (candidate == cell) {
+                cellInColumnLineCountForward += 1
+            } else {
+                break
+            }
         }
-        const candidateTop: CellType | null = board.value[posX] ? board.value[posX][posY - 1] : null
-        if (cell == candidateTop && !visited.includes(`${posX}|${posY}`)) {
-            visited.push(`${posX}|${posY}`)
-            return this.checkGameIsWon(posX, posY - 1, board, lineLength, cellInLineCount + 1, visited)
+
+        for (let y = posY - 1; y >= 0; y -= 1) {
+            const candidate = board.value[posX][y]
+            if (candidate == cell) {
+                cellInColumnLineCountBack += 1
+            } else {
+                break
+            }
         }
-        const candidateRight: CellType | null = board.value[posX + 1] ? board.value[posX + 1][posY] : null
-        if (cell == candidateRight && !visited.includes(`${posX}|${posY}`)) {
-            visited.push(`${posX}|${posY}`)
-            return this.checkGameIsWon(posX + 1, posY, board, lineLength, cellInLineCount + 1, visited)
+
+
+
+        if ((cellInColumnLineCountBack + cellInColumnLineCountForward) >= lineLength) {
+            return true
         }
-        const candidateBottom: CellType | null = board.value[posX] ? board.value[posX][posY + 1] : null
-        if (cell == candidateBottom && !visited.includes(`${posX}|${posY}`)) {
-            visited.push(`${posX}|${posY}`)
-            return this.checkGameIsWon(posX, posY + 1, board, lineLength, cellInLineCount + 1, visited)
+
+
+        // Check main diagonal line
+        let cellInMainDiagonalLineCountForward: number = 0
+        let cellInMainDiagonalLineCountBack: number = 0
+
+        for (let i = 0; i < board.width; i += 1) {
+            const candidate = board.value[posX + i] ? board.value[posX + i][posY + i] : null
+            if (candidate == cell) {
+                cellInMainDiagonalLineCountForward += 1
+            } else {
+                break
+            }
         }
+        for (let i = 0; i > 0; i -= 1) {
+            const candidate = board.value[posX + i] ? board.value[posX + i][posY + i] : null
+            if (candidate == cell) {
+                cellInMainDiagonalLineCountBack += 1
+            } else {
+                break
+            }
+        }
+
+        if ((cellInMainDiagonalLineCountForward + cellInMainDiagonalLineCountBack) >= lineLength) {
+            return true
+        }
+
+
+        // Check another diagonal line
+        let cellInAnotherDiagonalLineCountForward: number = 0
+        let cellIAnotherDiagonalLineCountBack: number = 0
+
+        for (let i = 0; i < board.width; i += 1) {
+            const candidate = board.value[posX - i] ? board.value[posX - i][posY + i] : null
+            if (candidate == cell) {
+                cellInAnotherDiagonalLineCountForward += 1
+            } else {
+                break
+            }
+        }
+        for (let i = posX; i < board.width; i += 1) {
+            const candidate = board.value[posX - i] ? board.value[posX - i][posY - i] : null
+            if (candidate == cell) {
+                cellIAnotherDiagonalLineCountBack += 1
+            } else {
+                break
+            }
+        }
+
+        if ((cellInAnotherDiagonalLineCountForward + cellIAnotherDiagonalLineCountBack) >= lineLength) {
+            return true
+        }
+
 
         return false
 

@@ -5,6 +5,8 @@ import { BoardValidator } from './../../src/utils/BoardValidator/BoardValidator'
 import { BoardValidatorOutput, GameStatusEnum, BoardValidatorErrors } from './../../src/utils/BoardValidator/BoardValidator.d'
 import { BoardErrors } from './../../src/utils/BoardValidator/Board'
 
+// TODO: Refactor
+
 test('Validation of given board and line - passed both', () => {
 
     const validator = new BoardValidator()
@@ -93,13 +95,18 @@ test('Validation of given board and line - Invalid board cell count values [heig
 
 })
 
-test('Validation of won board and line - X won ', () => {
+test('Validation of board winner and line - X or O won ', () => {
     const validator = new BoardValidator()
 
     const board = [
-        ['X', 'O', 'O'],
-        ['O', 'X', 'O'],
-        ['O', '', 'X'],
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', 'O', 'X', '', '', '', ''],
+        ['', '', '', '', 'X', 'O', '', '', '', ''],
+        ['', '', '', '', '', '', 'O', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
     ]
 
     const expected: BoardValidatorOutput = {
@@ -108,13 +115,48 @@ test('Validation of won board and line - X won ', () => {
 
     expect(validator.validateBoard(3, board)).toStrictEqual(expected)
 
+    const boradSecondaryDiagonal = [
+        ['', '', '', '', '', '', 'X', '', '', ''],
+        ['', '', '', '', 'O', 'X', '', '', '', ''],
+        ['', '', '', '', 'X', 'O', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+        ['', '', '', '', '', '', '', '', '', ''],
+    ]
+
+    const expectedSecondaryDiagonal: BoardValidatorOutput = {
+        status: GameStatusEnum.WIN,
+    }
+
+    expect(validator.validateBoard(3, boradSecondaryDiagonal)).toStrictEqual(expectedSecondaryDiagonal)
+
+    
+
     const board2 = [
-        ['X', 'X', 'X'],
-        ['', '', ''],
-        ['O', 'O', '']
+        ['X', 'O', 'O'],
+        ['', 'X', ''],
+        ['', '', 'X'],
     ]
 
     expect(validator.validateBoard(3, board2)).toStrictEqual(expected)
+
+    const board3 = [
+        ['', 'X','O'],
+        ['', 'X','O'],
+        ['', '', 'O']
+    ]
+
+    expect(validator.validateBoard(3, board3)).toStrictEqual(expected)
+
+    const board4 = [
+        ['', 'X', 'O'],
+        ['', 'O', 'X'],
+        ['O', '', '']
+    ]
+
+    expect(validator.validateBoard(3, board4)).toStrictEqual(expected)
 })
 
 test('Validation of TIE board and line', () => {
@@ -122,12 +164,12 @@ test('Validation of TIE board and line', () => {
 
     const board = [
         ['X', 'O', 'X'],
-        ['O', 'O', 'O'],
+        ['X', 'O', 'O'],
         ['O', 'X', 'X'],
     ]
 
     const expected: BoardValidatorOutput = {
-        status: GameStatusEnum.WIN,
+        status: GameStatusEnum.TIE,
     }
 
     expect(validator.validateBoard(3, board)).toStrictEqual(expected)
