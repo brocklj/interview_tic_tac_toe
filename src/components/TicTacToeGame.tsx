@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Board } from "../utils/BoardValidator/Board";
-import { CellEnum, CellType, PlayerEnum } from "../common-types/Cell.d";
+import { CellEnum, CellType } from "../common-types/Cell.d";
 import { BoardComponent } from "./BoardComponent";
 import { BoardValidator } from "../utils/BoardValidator/BoardValidator";
 import {
@@ -108,12 +108,16 @@ export function TickTackToeGame() {
     if (step != TickTackToeGameStep.PLAY) {
       return;
     }
-    if (
-      (currentPlayer == PlayerEnum.X && playerOne == PlayerConfig.BootRandom) ||
-      (currentPlayer == PlayerEnum.O && playerTwo == PlayerConfig.BootRandom)
-    ) {
+
+    const currentUserConfig =
+      currentPlayer == CellEnum.X ? playerOne : playerTwo;
+
+    if (currentUserConfig != PlayerConfig.User) {
       if (board) {
-        const pos = randomPlayerBot.performNextMove(board, currentPlayer);
+        let pos;
+        if (currentUserConfig == PlayerConfig.BootRandom) {
+          pos = randomPlayerBot.performNextMove(board, currentPlayer);
+        }
         if (pos) {
           setTimeout(() => {
             onCellClick(pos.posX, pos.posY);
@@ -152,7 +156,14 @@ export function TickTackToeGame() {
             {step == TickTackToeGameStep.FINISH && (
               <>
                 {gameStatus?.status == GameStatusEnum.WIN && (
-                  <h2 className="user-won title" style={{color: currentPlayer == CellEnum.X ? "green" : "red"}}>User {currentPlayer} Won!</h2>
+                  <h2
+                    className="user-won title"
+                    style={{
+                      color: currentPlayer == CellEnum.X ? "green" : "red",
+                    }}
+                  >
+                    User {currentPlayer} Won!
+                  </h2>
                 )}
               </>
             )}

@@ -105,7 +105,7 @@ export function StartForm({
         </fieldset>
 
         <p>{error && "Error: " + error}</p>
-        <caption>Player Settings</caption>
+        <p>Player Settings</p>
         <fieldset>
           <legend style={{ color: "green" }}>Player X</legend>
           <select
@@ -116,6 +116,7 @@ export function StartForm({
           >
             <option value={PlayerConfig.User}>User 1</option>
             <option value={PlayerConfig.BootRandom}>BOT random</option>
+            <option value={PlayerConfig.BootSmart}>BOT smart (WIP)</option>
           </select>
         </fieldset>
 
@@ -129,6 +130,7 @@ export function StartForm({
           >
             <option value={PlayerConfig.User}>User 2</option>
             <option value={PlayerConfig.BootRandom}>BOT random</option>
+            <option value={PlayerConfig.BootSmart}>BOT smart (WIP)</option>
           </select>
         </fieldset>
 
