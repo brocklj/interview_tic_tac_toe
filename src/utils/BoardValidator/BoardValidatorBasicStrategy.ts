@@ -2,11 +2,34 @@ import { CellEnum, CellType } from "../../common-types/Cell.d";
 import { Board } from "./Board";
 import { BoardValidatorErrors, GameStatus, GameStatusEnum, IBoardValidationStrategy } from "./BoardValidator.d";
 
+/*
+Inputs:
+    board: The game grid represented by a Board object with cells.
+    lineLength: The required line length that a player needs to win (e.g., 3 for tic-tac-toe).
+Variables:
+    totalCells: Total number of cells on the grid.
+    totalFilled: Number of filled cells.
+    totalX and totalO: Number of "X" and "O" cells.
+    winner: Stores the type of cell (X or O) that has won.
+    isGameWon: A boolean value indicating if someone has won.
+Main logic:
+    It iterates through the game board (board), counts the filled cells, and checks if any player has met the win conditions using the function checkGameIsWon.
+    If one of the players has won, it checks whether the game state follows the rules (e.g., a player cannot win if they had fewer or the same number of moves as their opponent).
+    It determines whether the game has ended in a draw or if it should continue.
+Win check:
+    The function checkGameIsWon checks if the cell at position posX and posY belongs to a winning line.
+    It checks the win conditions in all directions: rows, columns, and diagonals (both main and anti-diagonal).
+    If a line of length equal to lineLength is found, the function returns true (the game is won).
+Error handling:
+    The code ensures that if the difference between the number of "X" and "O" moves is greater than 1, the game stops with an error. Additionally, it checks if the winning player has an invalid number of moves compared to their opponent.
+    Output:
+    The function returns the game status as a GameStatusEnum, either as WIN (win), TIE (draw), or PLAY (game continues).
+    Overall, this function manages the logic for determining whether the game on the grid has ended, and if so, whether it ended in a win, a draw, or an error based on the rules.
+*/
+
 
 // Implemetation of Basic Strategy of board validation
 export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
-
-
 
     getGameStatus(board: Board, lineLength: number): GameStatus | null {
 
