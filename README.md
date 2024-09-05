@@ -203,7 +203,22 @@ export default tseslint.config({
 
 ---
 
-# Solution
+# TIC - TAC - TOE – Solution
+
+Install
+```
+$ pnpm install 
+```
+
+Scripts
+
+```
+  "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test": "vitest"
+```
 
 ## Board STD Input Reader
 
