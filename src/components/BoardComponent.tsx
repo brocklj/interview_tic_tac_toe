@@ -9,18 +9,16 @@ export function BoardComponent(props: {
 
   return (
     <>
-      <div>
-        {board?.value.map((row, x) => (
-          <div
-            key={`${x}`}
-            style={{ width: "100%", display: "flex", justifyContent: "center" }}
-          >
-            {row.map((cell, y) => (
-              <BoardCell cell={cell} x={x} y={y} onCellClick={onCellClick} />
-            ))}
-          </div>
-        ))}
-      </div>
+      {board?.value.map((row, x) => (
+        <div
+          key={`${x}`}
+          style={{ width: "100%", display: "flex", justifyContent: "center" }}
+        >
+          {row.map((cell, y) => (
+            <BoardCell key={y} cell={cell} x={x} y={y} onCellClick={onCellClick} />
+          ))}
+        </div>
+      ))}
     </>
   );
 }

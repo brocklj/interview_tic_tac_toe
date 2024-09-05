@@ -20,10 +20,11 @@ export function StartForm({
   const [height, setHeight] = React.useState("3");
   const [lineLength, setLineLength] = React.useState("3");
   const [playerOne, setPlayerOne] = React.useState(
-    PlayerConfig[PlayerConfig.User]
+    // TODO: Better temporarily build fix 
+    PlayerConfig.User.toString()
   );
   const [playerTwo, setPlayerTwo] = React.useState(
-    PlayerConfig[PlayerConfig.User]
+    PlayerConfig.User.toString()
   );
 
   const [error, setError] = React.useState("");
@@ -114,9 +115,9 @@ export function StartForm({
             value={playerOne}
             onChange={(e) => setPlayerOne(e.target.value)}
           >
-            <option value={PlayerConfig.User}>User 1</option>
-            <option value={PlayerConfig.BootRandom}>BOT random</option>
-            <option value={PlayerConfig.BootSmart}>BOT smart (WIP)</option>
+            <option value="">User 1</option>
+            <option value={PlayerConfig.BotRandom}>BOT random</option>
+            <option value={PlayerConfig.BotSmart}>BOT smart (WIP)</option>
           </select>
         </fieldset>
 
@@ -128,9 +129,9 @@ export function StartForm({
             value={playerTwo}
             onChange={(e) => setPlayerTwo(e.target.value)}
           >
-            <option value={PlayerConfig.User}>User 2</option>
-            <option value={PlayerConfig.BootRandom}>BOT random</option>
-            <option value={PlayerConfig.BootSmart}>BOT smart (WIP)</option>
+            <option value="">User 2</option>
+            <option value={PlayerConfig.BotRandom}>BOT random</option>
+            <option value={PlayerConfig.BotSmart}>BOT smart (WIP)</option>
           </select>
         </fieldset>
 

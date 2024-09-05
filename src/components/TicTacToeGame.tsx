@@ -118,10 +118,10 @@ export function TickTackToeGame() {
     if (currentUserConfig != PlayerConfig.User) {
       if (board) {
         let pos;
-        if (currentUserConfig == PlayerConfig.BootRandom) {
+        if (currentUserConfig == PlayerConfig.BotRandom) {
           pos = randomPlayerBot.performNextMove(board);
         }
-        if (currentUserConfig == PlayerConfig.BootRandom) {
+        if (currentUserConfig == PlayerConfig.BotSmart) {
           pos = smartPlayerBot.performNextMove(
             board,
             currentPlayer as PlayerEnum
@@ -158,8 +158,6 @@ export function TickTackToeGame() {
                     {currentPlayer}
                   </span>
                 </h2>
-                <h3>{gameStatus?.status} </h3>
-                <h4>{gameStatus?.error} </h4>
               </>
             )}
             {step == TickTackToeGameStep.FINISH && (
@@ -174,11 +172,29 @@ export function TickTackToeGame() {
                     User {currentPlayer} Won!
                   </h2>
                 )}
+                {gameStatus?.status == GameStatusEnum.TIE && (
+                  <h2 className={"shake"}>TIE!</h2>
+                )}
+                {gameStatus?.status == GameStatusEnum.ERROR && (
+                  <>
+                    <h3>{gameStatus?.status} </h3>
+                    <h4>{gameStatus?.error} </h4>
+                  </>
+                )}
               </>
             )}
           </div>
           <div>
-            <BoardComponent board={board} onCellClick={onCellClick} />
+            <BoardComponent
+              board={board}
+              onCellClick={(posX: number, posY: number) => {
+                const currentUserConfig =
+                  currentPlayer == CellEnum.X ? playerOne : playerTwo;                
+                if (currentUserConfig == PlayerConfig.User) {
+                  onCellClick(posX, posY);
+                }
+              }}
+            />
           </div>
           <div>
             <p>

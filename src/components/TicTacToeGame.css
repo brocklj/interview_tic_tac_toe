@@ -6,6 +6,21 @@
   height: 10rem;
 }
 
-.user-won {  
+.user-won {
   color: green;
+}
+
+@keyframes shake {
+  from {
+    transform: translateX(0px);
+  }
+  to {
+    transform: translateY(15px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .shake {
+    animation: shake infinite 0.2s alternate;
+  }
 }

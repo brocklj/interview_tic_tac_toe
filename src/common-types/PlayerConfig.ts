@@ -1,3 +1,3 @@
 export enum PlayerConfig {
-    User, BootRandom, BootSmart
+    User, BotRandom, BotSmart
 }
