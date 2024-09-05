@@ -26,11 +26,15 @@ function readInputFromConsole(callback: (lineLength: number, board: string[][]) 
         try {
             // Parse the input JSON string
             const jsonData: BoardData = JSON.parse(input);
-
-            // Destructure the jsonData object to extract lineLength and board
+      
             const { lineLength, board } = jsonData;
-
-            // Call the provided callback function with the parsed data
+            if(lineLength == null) {
+                throw Error("JSON parsing errot: Missing property lineLength")
+            }
+            if(board == null) {
+                throw Error("JSON parsing errot: Missing property board")
+            }
+          
             callback(lineLength, board);
         } catch (err: Error | unknown) {
             console.error('Error parsing JSON:',  err instanceof Error ? err.message : null);
