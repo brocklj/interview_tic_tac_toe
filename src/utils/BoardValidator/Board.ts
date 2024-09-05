@@ -64,12 +64,16 @@ export class Board {
     }
 
     static checkBoardLength(board: Board): boolean {
-        const isValid = (board.width >= 3 && board.width <= 10) && (board.height >= 3 && board.height <= 10)
+        const isValid = Board.checkDimensions(board.width, board.height)
         if (!isValid) {
             throw new Error(BoardValidatorErrors.EInvalidBoardSizeInput)
         }
 
         return isValid
+    }
+
+    static checkDimensions(width: number, height: number ): boolean {
+        return (width >= 3 && width <= 10) && (height >= 3 && height <= 10)
     }
 }
 

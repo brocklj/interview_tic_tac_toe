@@ -7,6 +7,9 @@ import {
   BoardValidatorOutput,
   GameStatusEnum,
 } from "../utils/BoardValidator/BoardValidator.d";
+import { StartForm } from "./StartForm";
+
+import "./TicTacToeGame.css";
 
 const boardValidator = new BoardValidator();
 
@@ -19,21 +22,27 @@ export function TickTackToeGame() {
     new Board(Board.generateBoardCell(4, 4))
   );
   const [step, setStep] = React.useState<TickTackToeGameStep>(
-    TickTackToeGameStep.PLAY
+    TickTackToeGameStep.START
   );
 
   const [currentPlayer, setCurrentPlayer] = React.useState<CellType>(
     CellEnum.X
   );
 
-  function onStartSubmit(width: number, height: number, lineLength: number) {
-    if (step == TickTackToeGameStep.START) {
-      const b = new Board(Board.generateBoardCell(width, height));
-      setBoard(b);
-      setLineLength(lineLength);
-      setCurrentPlayer(CellEnum.X);
-      setStep(TickTackToeGameStep.PLAY);
+  function startOver() {
+    if (board) {
+      onStartSubmit(board?.width, board?.height, lineLength);
     }
+    setStep(TickTackToeGameStep.START);
+  }
+
+  function onStartSubmit(width: number, height: number, lineLength: number) {
+    const b = new Board(Board.generateBoardCell(width, height));
+    setBoard(b);
+    setLineLength(lineLength);
+    setCurrentPlayer(CellEnum.X);
+    setStep(TickTackToeGameStep.PLAY);
+    setGameStatus(null);
   }
 
   const onCellClick = React.useCallback(
@@ -59,14 +68,28 @@ export function TickTackToeGame() {
 
   return (
     <>
-      <h2>Player: {currentPlayer} </h2>
-      <h3>{gameStatus?.status} </h3>
-      <h4>{gameStatus?.error} </h4>
-      <div>
-        {step == TickTackToeGameStep.PLAY && (
-          <>{<BoardComponent board={board} onCellClick={onCellClick} />}</>
-        )}
-      </div>
+      {step == TickTackToeGameStep.START && (
+        <>
+          <StartForm onSubmit={onStartSubmit} />
+        </>
+      )}
+      {step == TickTackToeGameStep.PLAY && (
+        <>
+          <div className="infoBlock">
+            <h2>Player: {currentPlayer} </h2>
+            <h3>{gameStatus?.status} </h3>
+            <h4>{gameStatus?.error} </h4>
+          </div>
+          <div>
+            {<BoardComponent board={board} onCellClick={onCellClick} />}
+          </div>
+          <div>
+            <button className="starover-button" onClick={startOver}>
+              ⟳ Start Over
+            </button>
+          </div>
+        </>
+      )}
     </>
   );
 }

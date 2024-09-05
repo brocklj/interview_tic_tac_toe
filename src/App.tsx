@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 
 import "./App.css";
-import { TickTackToeGame } from "./components/TickTackToeGame";
+import { TickTackToeGame } from "./components/TicTacToeGame";
 
 function App() {
   return (

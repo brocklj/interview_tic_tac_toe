@@ -11,7 +11,7 @@ export class BoardValidator {
         try {
             const board = new Board(cells)
 
-            const isLineLengthValid = this.checkLineLength(lineLength, board);
+            const isLineLengthValid = BoardValidator.checkLineLength(lineLength, board);
             if (!isLineLengthValid) {
                 throw new Error(BoardValidatorErrors.EInvalidLineLengthInput)
             }
@@ -35,7 +35,7 @@ export class BoardValidator {
         }
     }
 
-    private checkLineLength(lineLength: number, board: Board): boolean {
+    static checkLineLength(lineLength: number, board: Board): boolean {
         return 3 <= lineLength && lineLength <= Math.min(board.width, board.height)
     }
 

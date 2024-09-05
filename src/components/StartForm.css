@@ -1,0 +1,21 @@
+.startForm {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;  
+}
+
+.startForm fieldset { 
+    border-radius: 8px;
+    
+}
+.startForm fieldset input { 
+    border: none;
+    width: 100%;
+    height: 100%;
+
+}
+
+.startForm .submitButton {
+    margin-top: 1.5rem;
+    height: 2.5rem;
+}
