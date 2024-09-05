@@ -4,7 +4,17 @@ export type CellType =
     CellEnum.X | CellEnum.O | CellEnum.empty | string
 
 export enum CellEnum {
+    X = PlayerEnum.X,
+    O = PlayerEnum.O,
+    empty = ""
+}
+
+export enum PlayerEnum {
     X = "X",
     O = "O",
-    empty = ""
+}
+
+export type PosType = {
+    posX: number,
+    posY: number
 }

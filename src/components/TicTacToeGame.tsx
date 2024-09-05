@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Board } from "../utils/BoardValidator/Board";
-import { CellEnum, CellType } from "../common-types/Cell.d";
+import { CellEnum, CellType, PlayerEnum } from "../common-types/Cell.d";
 import { BoardComponent } from "./BoardComponent";
 import { BoardValidator } from "../utils/BoardValidator/BoardValidator";
 import {
@@ -10,8 +10,12 @@ import {
 import { StartForm } from "./StartForm";
 
 import "./TicTacToeGame.css";
+import { BoardPlayerBotRandomStrategy } from "../utils/BoardPlayerBot/BoardPlayerBotRadomStrategy";
+import { PlayerConfig } from "../common-types/PlayerConfig";
 
 const boardValidator = new BoardValidator();
+
+const randomPlayerBot = new BoardPlayerBotRandomStrategy();
 
 export function TickTackToeGame() {
   const [gameStatus, setGameStatus] =
@@ -24,25 +28,58 @@ export function TickTackToeGame() {
   const [step, setStep] = React.useState<TickTackToeGameStep>(
     TickTackToeGameStep.START
   );
+  // Use this to detect when Game has finished
+  React.useEffect(() => {
+    if (
+      gameStatus?.status == GameStatusEnum.ERROR ||
+      gameStatus?.status == GameStatusEnum.TIE ||
+      gameStatus?.status == GameStatusEnum.WIN
+    ) {
+      if (step != TickTackToeGameStep.FINISH) {
+        setStep(TickTackToeGameStep.FINISH);
+      }
+    }
+  }, [gameStatus, step]);
 
   const [currentPlayer, setCurrentPlayer] = React.useState<CellType>(
     CellEnum.X
   );
 
+  const [playerOne, setPlayerOne] = React.useState<PlayerConfig>(
+    PlayerConfig.User
+  );
+  const [playerTwo, setPlayerTwo] = React.useState<PlayerConfig>(
+    PlayerConfig.User
+  );
+
   function startOver() {
     if (board) {
-      onStartSubmit(board?.width, board?.height, lineLength);
+      onStartSubmit(
+        board?.width,
+        board?.height,
+        lineLength,
+        playerOne,
+        playerTwo
+      );
     }
     setStep(TickTackToeGameStep.START);
   }
 
-  function onStartSubmit(width: number, height: number, lineLength: number) {
+  function onStartSubmit(
+    width: number,
+    height: number,
+    lineLength: number,
+    playerOne: PlayerConfig,
+    playerTwo: PlayerConfig
+  ) {
     const b = new Board(Board.generateBoardCell(width, height));
     setBoard(b);
     setLineLength(lineLength);
     setCurrentPlayer(CellEnum.X);
     setStep(TickTackToeGameStep.PLAY);
     setGameStatus(null);
+    setPlayerOne(playerOne);
+    setPlayerTwo(playerTwo);
   }
 
   const onCellClick = React.useCallback(
@@ -66,6 +103,26 @@ export function TickTackToeGame() {
     [gameStatus, currentPlayer, board, lineLength]
   );
 
+  // User and Bot player configuration
+  React.useEffect(() => {
+    if (step != TickTackToeGameStep.PLAY) {
+      return;
+    }
+    if (
+      (currentPlayer == PlayerEnum.X && playerOne == PlayerConfig.BootRandom) ||
+      (currentPlayer == PlayerEnum.O && playerTwo == PlayerConfig.BootRandom)
+    ) {
+      if (board) {
+        const pos = randomPlayerBot.performNextMove(board, currentPlayer);
+        if (pos) {
+          setTimeout(() => {
+            onCellClick(pos.posX, pos.posY);
+          }, 1000);
+        }
+      }
+    }
+  }, [currentPlayer, board, step, playerOne, playerTwo, onCellClick]);
+
   return (
     <>
       {step == TickTackToeGameStep.START && (
@@ -73,15 +130,41 @@ export function TickTackToeGame() {
           <StartForm onSubmit={onStartSubmit} />
         </>
       )}
-      {step == TickTackToeGameStep.PLAY && (
+      {step != TickTackToeGameStep.START && (
         <>
           <div className="infoBlock">
-            <h2>Player: {currentPlayer} </h2>
-            <h3>{gameStatus?.status} </h3>
-            <h4>{gameStatus?.error} </h4>
+            {step == TickTackToeGameStep.PLAY && (
+              <>
+                <h2>
+                  Player:{" "}
+                  <span
+                    style={{
+                      color: `${currentPlayer == CellEnum.X ? "green" : "red"}`,
+                    }}
+                  >
+                    {currentPlayer}
+                  </span>
+                </h2>
+                <h3>{gameStatus?.status} </h3>
+                <h4>{gameStatus?.error} </h4>
+              </>
+            )}
+            {step == TickTackToeGameStep.FINISH && (
+              <>
+                {gameStatus?.status == GameStatusEnum.WIN && (
+                  <h2 className="user-won title" style={{color: currentPlayer == CellEnum.X ? "green" : "red"}}>User {currentPlayer} Won!</h2>
+                )}
+              </>
+            )}
           </div>
           <div>
-            {<BoardComponent board={board} onCellClick={onCellClick} />}
+            <BoardComponent board={board} onCellClick={onCellClick} />
+          </div>
+          <div>
+            <p>
+              | Board: {board?.width}x{board?.height} | Line Length:{" "}
+              {lineLength} |
+            </p>
           </div>
           <div>
             <button className="starover-button" onClick={startOver}>

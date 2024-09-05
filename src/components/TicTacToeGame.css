@@ -5,3 +5,7 @@
   display: block;
   height: 10rem;
 }
+
+.user-won {  
+  color: green;
+}

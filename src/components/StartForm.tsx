@@ -3,15 +3,28 @@ import * as React from "react";
 import "./StartForm.css";
 import { Board } from "../utils/BoardValidator/Board";
 import { BoardValidator } from "../utils/BoardValidator/BoardValidator";
+import { PlayerConfig } from "../common-types/PlayerConfig";
 
 export function StartForm({
   onSubmit,
 }: {
-  onSubmit: (width: number, height: number, lineLength: number) => void;
+  onSubmit: (
+    width: number,
+    height: number,
+    lineLength: number,
+    playerOne: PlayerConfig,
+    playerTwo: PlayerConfig
+  ) => void;
 }) {
   const [width, setWidth] = React.useState("3");
   const [height, setHeight] = React.useState("3");
   const [lineLength, setLineLength] = React.useState("3");
+  const [playerOne, setPlayerOne] = React.useState<PlayerConfig>(
+    PlayerConfig.User
+  );
+  const [playerTwo, setPlayerTwo] = React.useState<PlayerConfig>(
+    PlayerConfig.User
+  );
 
   const [error, setError] = React.useState("");
 
@@ -32,7 +45,7 @@ export function StartForm({
         throw Error(validationOutput.error || "");
       }
 
-      onSubmit(w, h, lh);
+      onSubmit(w, h, lh, playerOne, playerTwo);
     } catch (error: Error | unknown) {
       if (error instanceof Error) {
         setError(error.message);
@@ -92,6 +105,32 @@ export function StartForm({
         </fieldset>
 
         <p>{error && "Error: " + error}</p>
+        <caption>Player Settings</caption>
+        <fieldset>
+          <legend style={{ color: "green" }}>Player X</legend>
+          <select
+            name="pX"
+            id="pX"
+            value={playerOne}
+            onChange={(e) => setPlayerOne(e.target.value)}
+          >
+            <option value={PlayerConfig.User}>User 1</option>
+            <option value={PlayerConfig.BootRandom}>BOT random</option>
+          </select>
+        </fieldset>
+
+        <fieldset>
+          <legend style={{ color: "red" }}>Player O</legend>
+          <select
+            name="pY"
+            id="pY"
+            value={playerTwo}
+            onChange={(e) => setPlayerTwo(e.target.value)}
+          >
+            <option value={PlayerConfig.User}>User 2</option>
+            <option value={PlayerConfig.BootRandom}>BOT random</option>
+          </select>
+        </fieldset>
 
         <input className="submitButton" type="submit" value="🚀 START GAME" />
       </form>
