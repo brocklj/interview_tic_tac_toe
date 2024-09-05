@@ -45,7 +45,7 @@ export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
                     throw new Error(BoardValidatorErrors.E3.replace(`$player`, `two`))
                 }
             } else if (winner == CellEnum.O) {
-                if (totalX >= totalO) {
+                if (totalX >= totalO + 1) {
                     throw new Error(BoardValidatorErrors.E3.replace(`$player`, `one`))
                 }
             }

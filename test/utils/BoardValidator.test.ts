@@ -241,7 +241,7 @@ test('Error case: Player [one|two] played after game was already won', () => {
     expect(validator.validateBoard(3, board)).toStrictEqual(expected)
 
     const board2 = [
-        ['', '', ''],
+        ['', '', 'X'],
         ['O', 'O', 'O'],
         ['X', 'X', 'X']
     ]

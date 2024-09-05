@@ -10,10 +10,6 @@ export class BoardValidator {
     public validateBoard(lineLength: number, cells: CellType[][]): BoardValidatorOutput {
         try {
             const board = new Board(cells)
-            const isBoardValid = this.checkBoardLength(board)
-            if (!isBoardValid) {
-                throw new Error(BoardValidatorErrors.EInvalidBoardSizeInput)
-            }
 
             const isLineLengthValid = this.checkLineLength(lineLength, board);
             if (!isLineLengthValid) {
@@ -37,11 +33,6 @@ export class BoardValidator {
                 error: error instanceof Error ? error.message : null
             }
         }
-    }
-
-
-    private checkBoardLength(board: Board): boolean {
-        return (board.width >= 3 && board.width <= 10) && (board.height >= 3 && board.height <= 10)
     }
 
     private checkLineLength(lineLength: number, board: Board): boolean {

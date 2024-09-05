@@ -1,9 +1,10 @@
 
 export type CellType =
-    // TODO: Better type limitation - string makes not this much useful
-    CellEnum.X | CellEnum.O | string
+    // TODO: Better type limitation - the string tyoe makes this much much useful
+    CellEnum.X | CellEnum.O | CellEnum.empty | string
 
 export enum CellEnum {
     X = "X",
-    O = "O"
+    O = "O",
+    empty = ""
 }

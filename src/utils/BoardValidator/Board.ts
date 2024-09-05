@@ -1,4 +1,5 @@
 import { CellType } from "../../common-types/Cell.d";
+import { BoardValidatorErrors } from "./BoardValidator.d";
 
 
 export class Board {
@@ -43,6 +44,32 @@ export class Board {
         this._value = cells
         this._width = this.value.length
         this._height = this.getHeight() || 0
+
+        Board.checkBoardLength(this)
+    }
+
+    static generateBoardCell(width: number, height: number): CellType[][] {
+        // TODO: Intializing through Array's costrucrutor is probably necessary
+        const generatedBoard = Array(width)
+        const columns = Array(height)
+
+        columns.fill('', 0, height)
+
+        for (let i = 0; i < width; i += 1) {
+            generatedBoard[i] = Array.from(columns)
+        }
+
+        return generatedBoard
+
+    }
+
+    static checkBoardLength(board: Board): boolean {
+        const isValid = (board.width >= 3 && board.width <= 10) && (board.height >= 3 && board.height <= 10)
+        if (!isValid) {
+            throw new Error(BoardValidatorErrors.EInvalidBoardSizeInput)
+        }
+
+        return isValid
     }
 }
 
