@@ -10,12 +10,13 @@ export class BoardPlayerBotSmart implements IBotPlayerBot {
     constructor() {
 
     }
+
+    // TODO: To implement
     performNextMove(board: Board, currentPlayer: PlayerEnum): PosType | null {
         if(!currentPlayer || !board) {
             return null
         } 
-        
-
+        // TODO:    
         return null
     }
 }

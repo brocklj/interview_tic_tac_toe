@@ -20,7 +20,7 @@ export function StartForm({
   const [height, setHeight] = React.useState("3");
   const [lineLength, setLineLength] = React.useState("3");
   const [playerOne, setPlayerOne] = React.useState(
-    // TODO: Better temporarily build fix 
+    // TODO: Better temporarily build fix
     PlayerConfig.User.toString()
   );
   const [playerTwo, setPlayerTwo] = React.useState(
@@ -117,7 +117,10 @@ export function StartForm({
           >
             <option value="">User 1</option>
             <option value={PlayerConfig.BotRandom}>BOT random</option>
-            <option value={PlayerConfig.BotSmart}>BOT smart (WIP)</option>
+            {false && (
+              // TODO:
+              <option value={PlayerConfig.BotSmart}>BOT smart (WIP)</option>
+            )}
           </select>
         </fieldset>
 
@@ -131,7 +134,10 @@ export function StartForm({
           >
             <option value="">User 2</option>
             <option value={PlayerConfig.BotRandom}>BOT random</option>
-            <option value={PlayerConfig.BotSmart}>BOT smart (WIP)</option>
+            {false && (
+              // TODO:
+              <option value={PlayerConfig.BotSmart}>BOT smart (WIP)</option>
+            )}
           </select>
         </fieldset>
 
