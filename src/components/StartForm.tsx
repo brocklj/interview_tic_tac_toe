@@ -3,7 +3,6 @@ import * as React from "react";
 import "./StartForm.css";
 import { Board } from "../utils/BoardValidator/Board";
 import { BoardValidator } from "../utils/BoardValidator/BoardValidator";
-import { GameStatusEnum } from "../utils/BoardValidator/BoardValidator.d";
 
 export function StartForm({
   onSubmit,
@@ -28,7 +27,7 @@ export function StartForm({
 
       const v = new BoardValidator();
       const validationOutput = v.validateBoard(lh, b.value);
-      console.log(validationOutput);
+
       if (validationOutput.status == "ERROR") {
         throw Error(validationOutput.error || "");
       }

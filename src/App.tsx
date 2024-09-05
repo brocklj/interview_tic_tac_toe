@@ -12,8 +12,7 @@ function App() {
         <TickTackToeGame />
       </div>
       <div className="card">
-        <p>
-          Edit <code>code</code>
+        <p>          
         </p>
       </div>
       <p className="read-the-docs">More by J. Bröckl</p>
