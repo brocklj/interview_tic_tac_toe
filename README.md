@@ -202,44 +202,88 @@ export default tseslint.config({
 ---
 
 ---
+# TIC-TAC-TOE – Solution
 
-# TIC - TAC - TOE – Solution
+This project is a solution for the classic Tic-Tac-Toe game, with functionality for board validation and test-driven development using Vite, TypeScript, and Vitest.
 
-Install
-```
-$ pnpm install 
+## Author
+
+Created and maintained by [Jakub Bröckl](#).
+
+Feel free to reach out with suggestions, issues, or for collaboration!
+
+## Installation
+
+To install the project dependencies, run the following command:
+
+```bash
+$ pnpm install
 ```
 
-Scripts
+## Scripts
 
-```
-  "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "test": "vitest"
-```
+Below are the available scripts for development, building, linting, previewing, and testing the project:
+
+- **Development mode**: 
+  ```bash
+  pnpm run dev
+  ```
+
+- **Build for production**: 
+  ```bash
+  pnpm run build
+  ```
+
+- **Lint the codebase**: 
+  ```bash
+  pnpm run lint
+  ```
+
+- **Preview the production build**: 
+  ```bash
+  pnpm run preview
+  ```
+
+- **Run the test suite**: 
+  ```bash
+  pnpm run test
+  ```
 
 ## Board STD Input Reader
 
-Running BoardInputReader.ts
+You can run the `BoardInputReader.ts` utility to validate Tic-Tac-Toe boards by using the following command:
 
-```
+```bash
 $ pnpm dlx tsx src/utils/BoardValidator/BoardInputReader.ts
+```
 
-input ie.: {"lineLength": 3, "board": [["", "", ""], ["", "",""], ["","",""] ] }
+### Example Input:
+
+```json
+{
+  "lineLength": 3,
+  "board": [["", "", ""], ["", "", ""], ["", "", ""]]
+}
 ```
 
 ## Running Tests
 
-Running all test suite
+### Running the entire test suite:
 
-```
+To run all the tests in the suite, use:
+
+```bash
 pnpm run test run
 ```
 
-Running a specific test.
+### Running a specific test:
 
+To run a specific test, such as the one for validating the board and line, use:
+
+```bash
+pnpm run test run BoardValidator.test.ts -t "Validation of given board and line - passed both"
 ```
-pnpm run test run BoardValidator.test.ts -t  "Validation of given board and line - passed both"
-```
+
+--- 
+
+Feel free to modify the scripts and configurations as per your project needs!
