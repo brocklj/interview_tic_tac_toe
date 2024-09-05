@@ -79,6 +79,8 @@ export function StartForm({
         <fieldset>
           <legend>Line Length</legend>
           <input
+            min={3}
+            max={Math.min(parseInt(width), parseFloat(height))}
             type="number"
             name="lineLength"
             placeholder="Line Length"
