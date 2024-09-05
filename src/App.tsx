@@ -7,7 +7,7 @@ import { TickTackToeGame } from "./components/TicTacToeGame";
 function App() {
   return (
     <>
-      <h1>TIC - TAC - TOE</h1>
+      <h1 className="title">TIC - TAC - TOE</h1>
       <div>
         <TickTackToeGame />
       </div>
