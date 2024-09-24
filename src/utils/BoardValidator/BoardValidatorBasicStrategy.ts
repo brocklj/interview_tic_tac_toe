@@ -30,14 +30,13 @@ Error handling:
 
 // Implemetation of Basic Strategy of board validation
 export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
-
+    public winner: CellType | null = null
     getGameStatus(board: Board, lineLength: number): GameStatus | null {
 
         const totalCells: number = board.width * board.height
         let totalFilled: number = 0
         let totalX: number = 0
-        let totalO: number = 0
-        let winner: CellType | null = null
+        let totalO: number = 0        
 
 
         let isGameWon = false
@@ -55,7 +54,7 @@ export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
                     }
                     if (!isGameWon) {
                         isGameWon = this.checkGameIsWon(posX, posY, board, lineLength)
-                        winner = cell
+                        this.winner = cell
                     }
                 }
             }
@@ -63,11 +62,11 @@ export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
 
         // Throw error after already one player won
         if (isGameWon) {
-            if (winner == CellEnum.X) {
+            if (this.winner == CellEnum.X) {
                 if (totalX <= totalO) {
                     throw new Error(BoardValidatorErrors.E3.replace(`$player`, `two`))
                 }
-            } else if (winner == CellEnum.O) {
+            } else if (this.winner == CellEnum.O) {
                 if (totalX >= totalO + 1) {
                     throw new Error(BoardValidatorErrors.E3.replace(`$player`, `one`))
                 }

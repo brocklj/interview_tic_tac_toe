@@ -26,7 +26,7 @@ export function TickTackToeGame() {
 
   const [lineLength, setLineLength] = React.useState(3);
   const [board, setBoard] = React.useState<Board | null>(
-    new Board(Board.generateBoardCell(4, 4))
+    new Board(Board.generateBoardCell(4, 4), lineLength)
   );
   const [step, setStep] = React.useState<TickTackToeGameStep>(
     TickTackToeGameStep.START
@@ -75,7 +75,7 @@ export function TickTackToeGame() {
     playerOne: PlayerConfig,
     playerTwo: PlayerConfig
   ) {
-    const b = new Board(Board.generateBoardCell(width, height));
+    const b = new Board(Board.generateBoardCell(width, height), lineLength);
     setBoard(b);
     setLineLength(lineLength);
     setCurrentPlayer(CellEnum.X);
@@ -99,7 +99,7 @@ export function TickTackToeGame() {
           setCurrentPlayer(
             currentPlayer == CellEnum.X ? CellEnum.O : CellEnum.X
           );
-          setBoard(new Board(board.value));
+          setBoard(new Board(board.value, lineLength));
         }
       }
     },
@@ -128,19 +128,18 @@ export function TickTackToeGame() {
           );
         }
         if (pos) {
-          setTimeout(() => {
-            onCellClick(pos.posX, pos.posY);
-          }, 1000);
+          onCellClick(pos.posX, pos.posY);
+          setTimeout(() => {}, 1000);
         }
       }
     }
-  }, [currentPlayer, board, step, playerOne, playerTwo, onCellClick]);
+  }, [currentPlayer, step]);
 
   return (
     <>
       {step == TickTackToeGameStep.START && (
         <>
-          <StartForm onSubmit={onStartSubmit} />
+          <StartForm height={board?.height || 3} lineLength={board?.lineLength || 3} width={board?.width || 3} playerOne={playerOne} playerTwo={playerTwo} onSubmit={onStartSubmit} />
         </>
       )}
       {step != TickTackToeGameStep.START && (
@@ -189,7 +188,7 @@ export function TickTackToeGame() {
               board={board}
               onCellClick={(posX: number, posY: number) => {
                 const currentUserConfig =
-                  currentPlayer == CellEnum.X ? playerOne : playerTwo;                
+                  currentPlayer == CellEnum.X ? playerOne : playerTwo;
                 if (currentUserConfig == PlayerConfig.User) {
                   onCellClick(posX, posY);
                 }

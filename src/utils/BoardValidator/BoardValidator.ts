@@ -1,15 +1,17 @@
-import { CellType } from "../../common-types/Cell.d";
+import { CellType, PlayerEnum } from "../../common-types/Cell.d";
 import { Board } from "./Board";
 import { BoardValidatorErrors, BoardValidatorOutput, GameStatus, GameStatusEnum, IBoardValidationStrategy } from "./BoardValidator.d"
 import { BoardValidatorBasicStrategy } from "./BoardValidatorBasicStrategy";
 
 export class BoardValidator {
 
+    winner: CellType | PlayerEnum | null = null
+
     constructor(private strategy: IBoardValidationStrategy = new BoardValidatorBasicStrategy()) { }
 
     public validateBoard(lineLength: number, cells: CellType[][]): BoardValidatorOutput {
         try {
-            const board = new Board(cells)
+            const board = new Board(cells, lineLength)
 
             const isLineLengthValid = BoardValidator.checkLineLength(lineLength, board);
             if (!isLineLengthValid) {
@@ -17,6 +19,10 @@ export class BoardValidator {
             }
 
             const status: GameStatus | null = this.strategy.getGameStatus(board, lineLength)
+
+            if (status == GameStatusEnum.WIN) {
+                this.winner = this.strategy.winner
+            }
 
             // If status is still NULL then throw a general error
             if (!status) {

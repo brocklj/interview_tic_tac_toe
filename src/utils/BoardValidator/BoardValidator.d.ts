@@ -48,7 +48,11 @@ export enum BoardValidatorErrors {
 }
 
 export interface IBoardValidationStrategy {
+    
+    winner: CellType | null
+
     getGameStatus(board: Board, lineLength: number): GameStatus | null
+
 }
 
 export interface BoardData {

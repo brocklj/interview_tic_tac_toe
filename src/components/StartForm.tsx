@@ -7,7 +7,13 @@ import { PlayerConfig } from "../common-types/PlayerConfig";
 
 export function StartForm({
   onSubmit,
+  ...props
 }: {
+  width: number;
+  height: number;
+  lineLength: number;
+  playerOne: PlayerConfig;
+  playerTwo: PlayerConfig;
   onSubmit: (
     width: number,
     height: number,
@@ -16,15 +22,18 @@ export function StartForm({
     playerTwo: PlayerConfig
   ) => void;
 }) {
-  const [width, setWidth] = React.useState("3");
-  const [height, setHeight] = React.useState("3");
-  const [lineLength, setLineLength] = React.useState("3");
+  const [width, setWidth] = React.useState(props.width.toString() || "3");
+  const [height, setHeight] = React.useState(props.height.toString() || "3");
+  const [lineLength, setLineLength] = React.useState(
+    props.lineLength.toString() || "3"
+  );
   const [playerOne, setPlayerOne] = React.useState(
-    // TODO: Better temporarily build fix
-    PlayerConfig.User.toString()
+    props.playerOne ||
+      // TODO: Better temporarily build fix
+      PlayerConfig.User.toString()
   );
   const [playerTwo, setPlayerTwo] = React.useState(
-    PlayerConfig.User.toString()
+    props.playerTwo || PlayerConfig.User.toString()
   );
 
   const [error, setError] = React.useState("");
@@ -37,7 +46,7 @@ export function StartForm({
     const lh = parseInt(lineLength);
 
     try {
-      const b = new Board(Board.generateBoardCell(w, h));
+      const b = new Board(Board.generateBoardCell(w, h), parseInt(lineLength));
 
       const v = new BoardValidator();
       const validationOutput = v.validateBoard(lh, b.value);
@@ -72,7 +81,7 @@ export function StartForm({
             placeholder="Width"
             value={width}
             onChange={(event) => {
-              setWidth(event.target.value);
+              setWidth(event.target.value || "");
             }}
           />
         </fieldset>
@@ -86,7 +95,7 @@ export function StartForm({
             placeholder="Height"
             value={height}
             onChange={(event) => {
-              setHeight(event.target.value);
+              setHeight(event.target.value || "");
             }}
           />
         </fieldset>
@@ -117,10 +126,7 @@ export function StartForm({
           >
             <option value="">User 1</option>
             <option value={PlayerConfig.BotRandom}>BOT random</option>
-            {false && (
-              // TODO:
-              <option value={PlayerConfig.BotSmart}>BOT smart (WIP)</option>
-            )}
+            <option value={PlayerConfig.BotSmart}>BOT smart (WIP)</option>
           </select>
         </fieldset>
 
@@ -134,10 +140,7 @@ export function StartForm({
           >
             <option value="">User 2</option>
             <option value={PlayerConfig.BotRandom}>BOT random</option>
-            {false && (
-              // TODO:
-              <option value={PlayerConfig.BotSmart}>BOT smart (WIP)</option>
-            )}
+            <option value={PlayerConfig.BotSmart}>BOT smart (WIP)</option>
           </select>
         </fieldset>
 

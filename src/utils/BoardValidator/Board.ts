@@ -20,6 +20,15 @@ export class Board {
         return this._height
     }
 
+    public get isEmpty(): boolean {
+        for(const v of this.value ) {
+            if(v.includes("O") || v.includes("X")) {
+                return false
+            }
+        }
+        return true
+    }
+
     /*
       @Throws Error('Invalid board cell value')
       @Returns number
@@ -40,7 +49,7 @@ export class Board {
         return height
     }
 
-    constructor(cells: CellType[][]) {
+    constructor(cells: CellType[][], public lineLength: number) {
         this._value = cells
         this._width = this.value.length
         this._height = this.getHeight() || 0
@@ -72,7 +81,7 @@ export class Board {
         return isValid
     }
 
-    static checkDimensions(width: number, height: number ): boolean {
+    static checkDimensions(width: number, height: number): boolean {
         return (width >= 3 && width <= 10) && (height >= 3 && height <= 10)
     }
 }
