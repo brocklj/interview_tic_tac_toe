@@ -283,3 +283,32 @@ test('Error case: Player [one|two] played after game was already won', () => {
 
 })
 
+test('Validation of Test blocked diagonal', () => {
+    const validator = new BoardValidator()
+
+    const board = [
+        ['O', '', 'O'],
+        ['X', 'O', 'X'],
+        ['X', 'O', 'X'],
+    ]
+
+    const expected: BoardValidatorOutput = {
+        status: GameStatusEnum.PLAY,
+    }
+
+    expect(validator.validateBoard(3, board)).toStrictEqual(expected)
+
+
+    const board2 = [
+        ['X', '', 'X'],
+        ['X', 'O', 'X'],
+        ['O', '', 'O'],
+    ]
+
+    const expected2: BoardValidatorOutput = {
+        status: GameStatusEnum.PLAY,
+    }
+
+    expect(validator.validateBoard(3, board2)).toStrictEqual(expected2)
+
+})

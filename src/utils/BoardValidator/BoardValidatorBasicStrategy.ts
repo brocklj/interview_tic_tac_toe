@@ -210,7 +210,7 @@ export class BoardValidatorBasicStrategy implements IBoardValidationStrategy {
                 break
             }
         }
-        for (let i = posX; i < board.width; i += 1) {
+        for (let i = posX + 1; i < board.width; i += 1) {
             const candidate = board.value[posX - i] ? board.value[posX - i][posY - i] : null
             if (candidate == cell) {
                 cellIAnotherDiagonalLineCountBack += 1
