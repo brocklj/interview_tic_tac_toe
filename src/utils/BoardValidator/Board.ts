@@ -20,13 +20,17 @@ export class Board {
         return this._height
     }
 
-    public get isEmpty(): boolean {
+    // Returns number of moves made
+    // 0 = board is empty
+    // x = number of moves
+    public get isEmpty(): number {
+        let count: number = 0
         for(const v of this.value ) {
             if(v.includes("O") || v.includes("X")) {
-                return false
+                count++;
             }
         }
-        return true
+        return count
     }
 
     /*

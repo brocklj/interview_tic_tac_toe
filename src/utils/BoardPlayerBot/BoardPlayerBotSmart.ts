@@ -9,21 +9,21 @@ import { BoardPlayerBotRandomStrategy } from "./BoardPlayerBotRadomStrategy";
 
 
 export class BoardPlayerBotSmart implements IBotPlayerBot {
-     boardValidator = new BoardValidator()
+    boardValidator = new BoardValidator()
 
-    performNextMove(board: Board, currentPlayer: PlayerEnum): PosType | null {    
-        if(!currentPlayer || !board) {
+    performNextMove(board: Board, currentPlayer: PlayerEnum): PosType | null {
+        if (!currentPlayer || !board) {
             return null
-        } 
+        }
         const pos = this.bestMove(board, currentPlayer)
-        
+
         return pos
     }
 
 
     minimax(board: Board, depth: number, isMaximizing: boolean, player: PlayerEnum, opponent: PlayerEnum): number {
-        const game = this.boardValidator.validateBoard(board.lineLength, board.value) 
-    // console.log('status: ', game.status, 'error:', game.error )   
+        const game = this.boardValidator.validateBoard(board.lineLength, board.value)
+        // console.log('status: ', game.status, 'error:', game.error )   
         if (game.status == GameStatusEnum.WIN) {
             if (this.boardValidator.winner == player) {
                 return 1;
@@ -64,12 +64,12 @@ export class BoardPlayerBotSmart implements IBotPlayerBot {
         }
     }
 
-    bestMove(board: Board, player: PlayerEnum): PosType | null {        
+    bestMove(board: Board, player: PlayerEnum): PosType | null {
         let bestScore = -Infinity;
-        let pos: PosType | null = new BoardPlayerBotRandomStrategy().performNextMove(board)        
+        let pos: PosType | null = new BoardPlayerBotRandomStrategy().performNextMove(board)
 
-        for (let x = board.isEmpty ? pos?.posX || 0 : 0 ; x < board.width; x++) {
-            for (let y =  board.isEmpty ? pos?.posY || 0 : 0; y < board.height; y++) {
+        for (let x = board.isEmpty < 2 ? pos?.posX || 0 : 0; x < board.width; x++) {
+            for (let y = board.isEmpty < 2 ? pos?.posY || 0 : 0; y < board.height; y++) {
                 if (board.value[x][y] === '') {
                     board.value[x][y] = player;
                     const score = this.minimax(board, 0, true, player, player === PlayerEnum.X ? PlayerEnum.O : PlayerEnum.X);
