@@ -127,9 +127,10 @@ export function TickTackToeGame() {
             currentPlayer as PlayerEnum
           );
         }
-        if (pos) {
-          onCellClick(pos.posX, pos.posY);
-          setTimeout(() => {}, 1000);
+        if (pos) {                  
+          setTimeout(() => {
+            onCellClick(pos.posX, pos.posY);
+          }, 1000);
         }
       }
     }
