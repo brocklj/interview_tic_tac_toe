@@ -55,7 +55,7 @@ export function StartForm({
         throw Error(validationOutput.error || "");
       }
 
-      onSubmit(w, h, lh, parseInt(playerOne), parseInt(playerTwo));
+      onSubmit(w, h, lh, parseInt(playerOne.toString()), parseInt(playerTwo.toString()));
     } catch (error: Error | unknown) {
       if (error instanceof Error) {
         setError(error.message);
