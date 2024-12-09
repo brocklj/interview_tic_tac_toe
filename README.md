@@ -1,5 +1,7 @@
 # TIC - TAC - TOE
 
+<img width="666" alt="Screenshot 2024-09-24 at 9 09 49" src="https://github.com/user-attachments/assets/b8810806-3e60-443f-b052-890d52b48b92">
+
 Create Tic-Tac-Toe board with variable width and height (number of rows and columns). Each cell is a square, that can be either empty (""), or contain "O" or "X" based on player's / computer choice.
 
 The width and height will be chosen at the start of the game and cannot be changed during the game.
